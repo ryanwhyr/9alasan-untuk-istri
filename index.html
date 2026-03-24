@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teks Berkah Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --navy: #0f1b35;
+      --navy2: #1a2d52;
+      --orange: #f4622a;
+      --orange2: #ff7d48;
+      --cream: #fdf6ec;
+      --cream2: #f5e8d4;
+      --teal: #4a9e8e;
+      --teal2: #5bbcaa;
+      --white: #ffffff;
+      --text: #0f1b35;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--orange);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 20px 72px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* ── BG BLOBS ── */
+    body::before {
+      content: '';
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      top: -120px;
+      right: -120px;
+      pointer-events: none;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      bottom: -80px;
+      left: -80px;
+      pointer-events: none;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      width: 100%;
+      max-width: 700px;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .logo {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      background: var(--cream);
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: 2px solid var(--navy);
+      box-shadow: 3px 3px 0 var(--navy);
+    }
+
+    .badge {
+      background: var(--navy);
+      color: var(--orange);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: 2px solid var(--navy);
+      box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+    }
+
+    /* ── HERO TITLE ── */
+    .hero {
+      width: 100%;
+      max-width: 700px;
+      background: var(--navy);
+      border-radius: 16px;
+      border: 3px solid var(--navy);
+      box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.25);
+      padding: 32px 36px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: var(--orange);
+      opacity: 0.15;
+      right: -60px;
+      top: -60px;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: var(--teal);
+      opacity: 0.18;
+      right: 60px;
+      bottom: -50px;
+    }
+
+    .hero-eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 10px;
+    }
+
+    .hero h1 {
+      font-size: clamp(26px, 5vw, 42px);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.1;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 span {
+      color: var(--orange);
+    }
+
+    .hero p {
+      margin-top: 10px;
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.6);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── MAIN PANEL ── */
+    .panel {
+      width: 100%;
+      max-width: 700px;
+      margin-bottom: 16px;
+    }
+
+    .input-card {
+      background: var(--cream);
+      border: 3px solid var(--navy);
+      border-radius: 16px;
+      box-shadow: 5px 5px 0 var(--navy);
+      padding: 24px;
+    }
+
+    .card-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--navy2);
+      margin-bottom: 7px;
+      opacity: 0.7;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      background: var(--white);
+      border: 2px solid var(--navy);
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--navy);
+      outline: none;
+      transition: box-shadow 0.18s;
+      box-shadow: 3px 3px 0 var(--navy);
+    }
+
+    input[type="text"]::placeholder {
+      color: rgba(15, 27, 53, 0.3);
+      font-weight: 400;
+    }
+
+    input[type="text"]:focus {
+      box-shadow: 3px 3px 0 var(--orange);
+      border-color: var(--orange);
+    }
+
+    /* ── BUTTON ── */
+    .btn-wrap {
+      width: 100%;
+      max-width: 700px;
+      margin-bottom: 20px;
+    }
+
+    .btn-generate {
+      width: 100%;
+      padding: 18px 24px;
+      background: var(--navy);
+      color: var(--white);
+      border: 3px solid var(--navy);
+      border-radius: 12px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.25);
+      transition: transform 0.1s, box-shadow 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-generate:hover {
+      background: var(--cream);
+      color: var(--navy);
+      transform: translate(-2px, -2px);
+      box-shadow: 7px 7px 0 rgba(0, 0, 0, 0.25);
+    }
+
+    .btn-generate:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.25);
+    }
+
+    .btn-arrow {
+      display: inline-block;
+      font-size: 22px;
+      transition: transform 0.2s;
+    }
+
+    .btn-generate:hover .btn-arrow {
+      transform: translateX(4px);
+    }
+
+    /* ── RESULT ── */
+    .result-wrap {
+      width: 100%;
+      max-width: 700px;
+      display: none;
+    }
+
+    .result-wrap.show {
+      display: block;
+      animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes popIn {
+      from {
+        opacity: 0;
+        transform: scale(0.96) translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .result-card {
+      background: var(--teal);
+      border: 3px solid var(--navy);
+      border-radius: 16px;
+      box-shadow: 6px 6px 0 var(--navy);
+      overflow: hidden;
+    }
+
+    .result-topbar {
+      background: var(--navy);
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .result-topbar-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--orange);
+    }
+
+    .copy-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toast {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--teal2);
+      display: none;
+    }
+
+    .toast.show {
+      display: block;
+    }
+
+    .btn-copy {
+      background: var(--orange);
+      border: 2px solid var(--orange);
+      border-radius: 6px;
+      color: var(--white);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 7px 16px;
+      cursor: pointer;
+      box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+
+    .btn-copy:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-copy:active {
+      transform: translate(1px, 1px);
+      box-shadow: 0 0 0 rgba(0, 0, 0, 0.3);
+    }
+
+    .result-body {
+      padding: 24px;
+    }
+
+    .result-text {
+      background: var(--cream);
+      border: 2px solid var(--navy);
+      border-radius: 10px;
+      padding: 20px 22px;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 2;
+      color: var(--navy);
+      white-space: pre-wrap;
+      word-break: break-word;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .hl-velg {
+      background: var(--orange);
+      color: var(--white);
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    /* legend */
+    .legend {
+      display: flex;
+      gap: 14px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .legend-chip {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--cream);
+      letter-spacing: 0.5px;
+    }
+
+    .chip-swatch {
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 800;
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: var(--orange);
+    }
+
+    /* footer */
+    footer {
+      margin-top: 52px;
+      text-align: center;
+      color: var(--navy);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      opacity: 0.65;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER BAR -->
+  <div class="header">
+    <div class="logo">☪ Generator</div>
+    <div class="badge">Beta v1.0</div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">✦ Tool Gratis · Sebarkan Kebaikan</div>
+    <h1>Teks <span>Berkah</span><br>Generator</h1>
+    <p>Ganti kata, generate, lalu salin & bagikan ke semua!</p>
+  </div>
+
+  <!-- INPUT PANEL -->
+  <div class="panel">
+    <div class="input-card">
+      <div class="card-label">Ganti Kata</div>
+      <div class="card-title">Ganti "velg" dengan apa?</div>
+      <label for="inputVelg">Kata penggantinya</label>
+      <input type="text" id="inputVelg" placeholder="jam tangan, HP baru, sepatu…" autocomplete="off" />
+    </div>
+  </div>
+
+  <!-- GENERATE BUTTON -->
+  <div class="btn-wrap">
+    <button class="btn-generate" onclick="generate()">
+      Generate Teks Sekarang
+      <span class="btn-arrow">→</span>
+    </button>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-wrap" id="resultCard">
+    <div class="result-card">
+      <div class="result-topbar">
+        <div class="result-topbar-title">✦ Hasil Teks</div>
+        <div class="copy-row">
+          <span class="toast" id="copiedToast">✓ TERSALIN!</span>
+          <button class="btn-copy" onclick="copyText()">Salin Teks</button>
+        </div>
+      </div>
+      <div class="result-body">
+        <div class="result-text" id="resultText"></div>
+        <div class="legend" id="legendArea"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>Semoga berkah & barokah ☪ · Bebas disebarkan</footer>
+
+  <script>
+    const TEMPLATE = `Insyaallah jadi lebih religius dengan {VELG} baru.
+
+1. Istri jadi sering beristigfar
+2. Suami jadi lebih sering bersyukur
+3. Orang yg melihat terkagum dgn blg masyaallah
+4. Ortu/mertua jadi bertasbih dgn liat {VELG} baru
+5. Rumah tangga jadi lebih sakinah, mawaddah, warohmah
+6. Mengundang ridho Allah SWT. untuk istrinya
+7. Mengundang rejeki Allah untuk suami
+8. Menambah keberkahan rejeki karena dibelanjakan sesuatu yg halal
+9. Berbagi dengan cara membeli dagangan orang lain yaitu {VELG}.`;
+
+    function generate() {
+      const velg = document.getElementById('inputVelg').value.trim() || 'velg';
+
+      const plain = TEMPLATE.replaceAll('{VELG}', velg);
+
+      const safe = escapeHtml(plain);
+      const highlighted = safe.replace(
+        new RegExp(escapeRegex(escapeHtml(velg)), 'g'),
+        `<span class="hl-velg">${escapeHtml(velg)}</span>`
+      );
+
+      document.getElementById('resultText').innerHTML = highlighted;
+      document.getElementById('resultCard').dataset.plain = plain;
+
+      document.getElementById('legendArea').innerHTML = `
+      <div class="legend-chip">
+        <span class="chip-swatch">${escapeHtml(velg)}</span>
+        = pengganti "velg"
+      </div>`;
+
+      const card = document.getElementById('resultCard');
+      card.classList.remove('show');
+      void card.offsetWidth;
+      card.classList.add('show');
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function copyText() {
+      const text = document.getElementById('resultCard').dataset.plain || '';
+      navigator.clipboard.writeText(text).then(() => {
+        const t = document.getElementById('copiedToast');
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2200);
+      });
+    }
+
+    function escapeHtml(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+    function escapeRegex(s) {
+      return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Enter') generate(); });
+  </script>
+</body>
+
+</html>
